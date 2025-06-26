@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&display=swap');
+
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+*{
+    font-family: "Outfit", sans-serif;
+}
+@theme{
+    --soft-primary:#84D187;
+    --color-primary:#00B207;
+    --dark-primary:#2C742F;
+    --warning-primary:#FF8A00;
+    --Danger-primary:#EA4B4B;
+    
+}
+body.dark{
+    @apply  bg-gray-100 
+}
