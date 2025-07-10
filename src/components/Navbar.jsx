@@ -168,7 +168,7 @@ const Navbar = () => {
           <input
             type="text"
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-gray-200 outline-none text-sm px-2 w-[50px] md:w-[60px] lg:w-full"
+            className="bg-gray-200 outline-none text-sm px-2 w-[50px] md:w-[160px] lg:w-full"
             placeholder="Search items"
           />
           <img src={assets.search_icon} alt="search" className="w-4 h-4 md:w-7 md:h-7" />
@@ -202,12 +202,19 @@ const Navbar = () => {
         ) : (
           <div className="relative group cursor-pointer">
             
-                    <img
-              src={user.image || assets.profile_icon}
-              alt="profile"
-              className="w-8 h-8 rounded-full object-cover"
-              onClick={() => navigate("/account")}
-            />
+                            <img
+            src={
+              user?.photoURL
+                ? user.photoURL
+                : user?.name
+                  ? `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`
+                  : assets.profile_icon
+            }
+            alt="profile"
+            className="w-8 h-8 rounded-full object-cover"
+            onClick={() => navigate("/account")}
+          />
+        
             {/* <ul className="hidden group-hover:block absolute top-10 right-0 bg-white border rounded-md shadow z-50 text-sm w-28">
               <NavLink
                 to="/account"

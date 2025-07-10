@@ -23,6 +23,7 @@ import OrderHistory from './components/OrderHistory';
 import UserProfile from './components/UserProfile';
 import ShoppingCart from './components/ShoppingCart';
 import Settings from './components/Settings';
+import UserDashboard from './Pages/UserDashboard';
 
 const App = () => {
   const isVendorPath = useLocation().pathname.includes('vendor');
@@ -49,7 +50,7 @@ const App = () => {
 
   {/* Protected account layout */}
   {user ? (
-    <Route path="/account" element={<UserLayout />}>
+    <Route path="/account" element={<UserDashboard />}>
       <Route index element={<UserProfile />} /> {/* Default view */}
       <Route path="dashboard" element={<UserProfile />} />
       <Route path="order" element={<OrderHistory />} />

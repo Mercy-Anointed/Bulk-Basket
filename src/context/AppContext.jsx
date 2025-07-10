@@ -289,12 +289,12 @@ export const AppContextProvider = ({ children }) => {
   const MAX_QUANTITY = 100;
   const MIN_QUANTITY = 5;
 
-  // ✅ General User Login Handler (Google, Facebook, or Form)
+  // ✅ Normalize user data (Google or Form login)
   const loginUser = (userObject) => {
     const normalizedUser = {
       name: userObject.displayName || userObject.name || "User",
       email: userObject.email,
-      photoURL: userObject.photoURL || "", // fallback if no photo
+      photoURL: userObject.photoURL || userObject.photo || "", // image uploaded or from Google
     };
 
     setUser(normalizedUser);
@@ -365,6 +365,7 @@ export const AppContextProvider = ({ children }) => {
     console.log("🛒 cartItems updated:", cartItems);
   }, [cartItems]);
 
+  // ✅ Load products (replace with actual fetch in production)
   const fetchProduct = async () => {
     setProducts(dummyProducts);
   };
@@ -470,6 +471,4 @@ export const AppContextProvider = ({ children }) => {
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
-export const useAppContext = () => {
-  return useContext(AppContext);
-};
+export const useAppContext = () => useContext(AppContext);

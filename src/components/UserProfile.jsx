@@ -27,6 +27,7 @@ const UserProfile = () => {
 
   return (
     <div className="p-4 md:p-8">
+      
       {/* Profile Section */}
       <div className="max-w-4xl mx-auto border border-gray-200 p-5 md:p-6 rounded shadow-md">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-4">

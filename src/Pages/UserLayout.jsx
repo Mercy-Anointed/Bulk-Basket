@@ -25,6 +25,7 @@ const sidebarLinks = [
 
   return (
     <div className="flex">
+      
       <div className="md:w-64 w-16 border-r h-[95vh] text-base border-gray-300 pt-4 flex flex-col">
         {sidebarLinks.map((item) => (
           <NavLink
