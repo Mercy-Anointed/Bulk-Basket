@@ -1,10 +1,11 @@
+// ShoppingCart.jsx
 import React, { useEffect, useState } from 'react';
 import { assets } from '../assets/assets';
 import { useAppContext } from '../context/AppContext';
 import DoubleCards from '../components/DoubleCards';
 import { toast } from 'react-hot-toast';
 
-const Cart = () => {
+const ShoppingCart = () => {
   const {
     products,
     updateCartItems,
@@ -55,16 +56,6 @@ const Cart = () => {
 
   return products.length > 0 && cartItems ? (
     <div className='flex flex-col'>
-      <div className='relative'>
-        <img src={assets.product_banner} alt="Banner" className='w-full object-cover max-h-[300px]' />
-        <div className='absolute inset-0 flex items-center bg-black/50 px-4 lg:px-24'>
-          <h2 className='text-white text-lg md:text-xl lg:text-2xl font-semibold'>Cart</h2>
-        </div>
-      </div>
-
-      <div className='flex justify-center mt-10 px-4'>
-        <h3 className='text-lg md:text-xl font-semibold'>My Shopping List</h3>
-      </div>
 
       <div className="px-4 md:px-10 lg:px-24 md:mt-10">
         <div className="hidden md:grid grid-cols-[4fr_1fr_1fr_1fr_1fr] items-center gap-4 border-b border-gray-300 py-3 text-gray-500 text-sm md:text-base font-medium">
@@ -96,7 +87,7 @@ const Cart = () => {
             <p className='text-sm md:text-base text-gray-700 text-center'>₦{product.amount}</p>
 
             <div className='inline-flex items-center justify-center gap-2 border border-gray-300 shadow-sm rounded-full px-2 py-1'>
-              <button
+              <button 
                 className='w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full text-gray-700'
                 onClick={() => removeFromCart(product._id)}
               >
@@ -154,11 +145,9 @@ const Cart = () => {
         </div>
       </div>
 
-      <div>
-        <DoubleCards />
-      </div>
+     
     </div>
   ) : null;
 };
 
-export default Cart;
+export default ShoppingCart;

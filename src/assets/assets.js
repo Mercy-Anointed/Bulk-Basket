@@ -87,6 +87,7 @@ import message_icon from './Group (2).png'
 import faq_banner1 from './faqbanner1.png'
 import faq_banner2 from './Group 5.png'
 import plus_icon from './Plus.png'
+import vector from './Vector (3).png'
 
 export const assets = {
     logo,
@@ -162,6 +163,7 @@ export const assets = {
     faq_banner1,
     faq_banner2,
     plus_icon,
+    vector,
 }
 
 export const categories = [
@@ -227,6 +229,19 @@ export const categories = [
     },
 ]
 
+let vendor = {
+  name: "Unknown Vendor",
+  email: "unknown@example.com",
+  photo: "https://via.placeholder.com/100"
+};
+
+if (typeof window !== "undefined") {
+  const stored = localStorage.getItem("vendor");
+  if (stored) {
+    vendor = JSON.parse(stored);
+  }
+}
+
 export const dummyProducts= [
     {_id:"gd41g31h",
     name:"Green Pepper",
@@ -240,6 +255,11 @@ export const dummyProducts= [
        off:64,
        rating: 4.7,
        window:"june 12-14 2025",
+       vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd42g32h",
     name:"Corn",
@@ -253,6 +273,11 @@ export const dummyProducts= [
        off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd43g33h",
     name:"Irish Potatoes",
@@ -266,6 +291,11 @@ export const dummyProducts= [
        off:64,
         rating: 4.7,
           window:"june 12-14 2025",
+          vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd44g34h",
     name:"Yam",
@@ -279,6 +309,11 @@ export const dummyProducts= [
        off:64,
         rating: 4.7,
           window:"june 12-14 2025",
+          vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd45g35h",
     name:"Cassava",
@@ -292,6 +327,11 @@ export const dummyProducts= [
        off:64,
         rating: 4.7,
           window:"june 12-14 2025",
+          vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd46g36h",
     name:"Chilli (Shambo)",
@@ -305,6 +345,11 @@ export const dummyProducts= [
       off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd47g37h",
     name:"Fresh Tomatoes",
@@ -318,6 +363,11 @@ export const dummyProducts= [
       off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd48g38h",
     name:"Irish Potatoes",
@@ -331,6 +381,11 @@ export const dummyProducts= [
       off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd49g39h",
     name:"Chinese Cabbage",
@@ -344,6 +399,11 @@ export const dummyProducts= [
       off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd50g40h",
     name:"Frozen Chicken",
@@ -357,6 +417,11 @@ export const dummyProducts= [
       off:64,
       rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd51g41h",
     name:"Corn",
@@ -370,6 +435,11 @@ export const dummyProducts= [
       off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd52g42h",
     name:"Green Bell Pepper",
@@ -383,6 +453,11 @@ export const dummyProducts= [
       off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd53g43h",
     name:"Green Chilli",
@@ -396,6 +471,11 @@ export const dummyProducts= [
       off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd54g44h",
     name:"Goat Meat",
@@ -409,6 +489,11 @@ export const dummyProducts= [
       off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd55g45h",
     name:"Golden Circle Oil",
@@ -422,6 +507,11 @@ export const dummyProducts= [
       off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd56g46h",
     name:"Yam",
@@ -435,6 +525,11 @@ export const dummyProducts= [
       off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd57g47h",
     name:"Okra",
@@ -448,6 +543,11 @@ export const dummyProducts= [
       off:64,
        rating: 4.7,
          window:"june 12-14 2025",
+         vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd58g48h",
     name:"Palm Oil",
@@ -461,6 +561,11 @@ export const dummyProducts= [
      off:64,
       rating: 4.7,
         window:"june 12-14 2025",
+        vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd59g49h",
     name:"Red Bell Pepper",
@@ -474,6 +579,11 @@ export const dummyProducts= [
      off:20,
       rating: 4.7,
         window:"june 12-14 2025",
+        vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd60g50h",
     name:"Red Chilli",
@@ -487,6 +597,11 @@ export const dummyProducts= [
      off:20,
       rating: 4.7,
         window:"june 12-14 2025",
+        vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd61g51h",
     name:"Fresh Tomato",
@@ -500,6 +615,11 @@ export const dummyProducts= [
      off:20,
       rating: 4.7,
         window:"june 12-14 2025",
+        vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd62g52h",
     name:"Green Beans",
@@ -513,6 +633,11 @@ export const dummyProducts= [
      off:20,
       rating: 4.7,
         window:"june 12-14 2025",
+        vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
     {_id:"gd63g53h",
     name:"Native Goat (mkpi)",
@@ -526,6 +651,11 @@ export const dummyProducts= [
     off:20,
      rating: 4.7,
        window:"june 12-14 2025",
+       vendor: {
+    name: vendor.name,
+    photo: vendor.photo,
+    email: vendor.email,
+  },
     },
 ]
 

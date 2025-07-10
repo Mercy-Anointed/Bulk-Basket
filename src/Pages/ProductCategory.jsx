@@ -65,7 +65,7 @@ const ProductCategory = () => {
         <div className='relative w-full mb-4'>
             <img src={assets.category_banner1} alt="" className='md:w-full' />
             <div className='absolute inset-0 pl-2 md:pl-8 flex items-center gap-1.5 '>
-                <img src={assets.category_icon} alt="" />
+                <img src={assets.category_icon} alt=""  /> <img src={assets.vector} alt="" />
               <p className='md:text-2xl font-bold'>Categories</p>
          
             </div>
