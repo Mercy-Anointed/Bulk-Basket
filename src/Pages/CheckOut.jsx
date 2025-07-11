@@ -287,7 +287,7 @@ const CheckOut = () => {
     setSubmittedAddress({ ...address });
   };
 
-  const saveOrderToHistory = () => {
+  /* const saveOrderToHistory = () => {
   const existing = JSON.parse(localStorage.getItem('orders')) || [];
   const newOrder = {
     id: 'ORD' + Date.now(),
@@ -297,60 +297,98 @@ const CheckOut = () => {
     products: cartArray,
   };
   localStorage.setItem('orders', JSON.stringify([newOrder, ...existing]));
-};
-
-  const payWithPaystack = () => {
-    const handler = window.PaystackPop.setup({
-      key: 'pk_test_9b41dd21bcb7a2900bf064eb42545520cfc614b7',
+}; */
+const saveOrderToHistory = (method) => {
+  const existing = JSON.parse(localStorage.getItem('orders')) || [];
+  const newOrder = {
+    id: 'ORD' + Date.now(),
+    date: new Date().toLocaleString(),
+    total,
+    subtotal,
+    shipping: deliveryFee,
+    paymentMethod: method,
+    products: cartArray.map(product => ({
+      ...product,
+      price: product.amount,
+    })),
+    billingInfo: {
+      fullName: `${address.firstName} ${address.middleName || ''} ${address.lastName}`,
       email: address.email,
-      amount: total * 100,
-      currency: 'NGN',
-      ref: '' + Math.floor(Math.random() * 1000000000 + 1),
-      callback: function (response) {
-        alert('Payment successful. Reference: ' + response.reference);
-        saveOrderToHistory()
-      },
-      onClose: function () {
-        alert('Payment window closed.');
-      }
-    });
-    handler.openIframe();
-  };
-
-  const payWithFlutterwave = () => {
-    window.FlutterwaveCheckout({
-      public_key: 'FLWPUBK_TEST-ccdd99935611671d77774755c8e19a15-X',
-      tx_ref: '' + Date.now(),
-      amount: total,
-      currency: 'NGN',
-      customer: {
-        email: address.email,
-        name: `${address.firstName} ${address.lastName}`,
-        phone_number: address.phone,
-      },
-      callback: (response) => {
-        alert('Payment successful. Transaction ID: ' + response.transaction_id);
-         saveOrderToHistory()
-      },
-      onclose: () => {
-        alert('Flutterwave payment closed');
-      },
-      customizations: {
-        title: 'BulkBaskett Checkout',
-        description: 'Payment for your order',
-        logo: 'https://your-logo-url.com/logo.png', // replace if needed
-      },
-    });
-  };
-
-  const handleSecurePayment = () => {
-    if (!selectedPayment) return alert('Please select a payment method');
-    if (selectedPayment === 'paystack') {
-      payWithPaystack();
-    } else if (selectedPayment === 'flutterwave') {
-      payWithFlutterwave();
+      phone: address.phone,
+      address: address.street,
+      city: address.city,
+      state: address.state,
+      country: address.country || 'Nigeria',
+    },
+    shippingInfo: {
+      fullName: `${address.firstName} ${address.middleName || ''} ${address.lastName}`,
+      email: address.email,
+      phone: address.phone,
+      address: address.street,
+      city: address.city,
+      state: address.state,
+      country: address.country || 'Nigeria',
     }
   };
+  localStorage.setItem('orders', JSON.stringify([newOrder, ...existing]));
+};
+
+
+
+  const payWithPaystack = (method) => {
+  const handler = window.PaystackPop.setup({
+    key: 'pk_test_9b41dd21bcb7a2900bf064eb42545520cfc614b7',
+    email: address.email,
+    amount: total * 100,
+    currency: 'NGN',
+    ref: '' + Math.floor(Math.random() * 1000000000 + 1),
+    callback: function (response) {
+      alert('Payment successful. Reference: ' + response.reference);
+      saveOrderToHistory(method); // Pass method
+    },
+    onClose: function () {
+      alert('Payment window closed.');
+    }
+  });
+  handler.openIframe();
+};
+
+const payWithFlutterwave = (method) => {
+  window.FlutterwaveCheckout({
+    public_key: 'FLWPUBK_TEST-ccdd99935611671d77774755c8e19a15-X',
+    tx_ref: '' + Date.now(),
+    amount: total,
+    currency: 'NGN',
+    customer: {
+      email: address.email,
+      name: `${address.firstName} ${address.lastName}`,
+      phone_number: address.phone,
+    },
+    callback: (response) => {
+      alert('Payment successful. Transaction ID: ' + response.transaction_id);
+      saveOrderToHistory(method); // Pass method
+    },
+    onclose: () => {
+      alert('Flutterwave payment closed');
+    },
+    customizations: {
+      title: 'BulkBaskett Checkout',
+      description: 'Payment for your order',
+      logo: 'https://your-logo-url.com/logo.png',
+    },
+  });
+};
+
+const handleSecurePayment = () => {
+  if (!selectedPayment) return alert('Please select a payment method');
+
+  if (selectedPayment === 'paystack') {
+    payWithPaystack(selectedPayment); // ✅ pass to function
+  } else if (selectedPayment === 'flutterwave') {
+    payWithFlutterwave(selectedPayment); // ✅ pass to function
+  }
+};
+
 
   useEffect(() => {
     // Inject Paystack script
@@ -390,7 +428,8 @@ const CheckOut = () => {
         {/* Left: Address Form */}
         <div className="flex-1 max-w-[60%]">
           <form onSubmit={onSubmitHandler} className="space-y-3 mt-6 text-sm">
-            <div className="grid grid-cols-3 gap-4">
+         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
               <div className="flex flex-col">
                 <label className="mb-2">Last Name</label>
                 <InputField handleChange={handleChange} address={address} name="lastName" type="text" placeholder="Edward" />
@@ -500,13 +539,13 @@ const CheckOut = () => {
           </div>
 
           <div className="md:mb-10">
-            <div className="grid grid-cols-2 text-gray-700 text-sm border-b gap-80 border-gray-300 py-3">
+            <div className="grid grid-cols-2 text-gray-700 text-sm border-b gap-4 border-gray-300 py-3">
               <span>Subtotal</span> <span>₦{subtotal}</span>
             </div>
-            <div className="grid grid-cols-2 text-sm text-gray-700 gap-80 border-b border-gray-300 py-3">
+            <div className="grid grid-cols-2 text-sm text-gray-700 gap-4 border-b border-gray-300 py-3">
               <span>Shipping</span> <span>₦{deliveryFee}</span>
             </div>
-            <div className="grid grid-cols-2 text-gray-700 font-semibold gap-78 py-3">
+            <div className="grid grid-cols-2 text-gray-700 font-semibold gap-4 py-3">
               <span className="text-lg">Total</span> <span className="text-lg">₦{total}</span>
             </div>
           </div>

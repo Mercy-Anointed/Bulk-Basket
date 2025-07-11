@@ -1,8 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAppContext } from '../context/AppContext';
 
+// InputField component with labels and optional icons
 const InputField = ({
+  label,
   type,
   placeholder,
   name,
@@ -13,8 +16,14 @@ const InputField = ({
   icon,
   toggleIcon
 }) => (
-  <div className="relative">
+  <div className="relative flex flex-col gap-1 text-sm">
+    {label && (
+      <label htmlFor={name} className="text-gray-700 font-medium">
+        {label}
+      </label>
+    )}
     <input
+      id={name}
       type={type}
       placeholder={placeholder}
       name={name}
@@ -25,7 +34,7 @@ const InputField = ({
     />
     {icon && (
       <span
-        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+        className="absolute right-3 top-[38px] transform -translate-y-1/2 cursor-pointer text-gray-500"
         onClick={toggleIcon}
       >
         {icon}
@@ -40,8 +49,7 @@ export default function Settings() {
   const [submittedAddress, setSubmittedAddress] = useState(null);
   const [submittedPassword, setSubmittedPassword] = useState(null);
   const [editingAddress, setEditingAddress] = useState(true);
-
-  const [profileImage, setProfileImage] = useState(user?.image || '');
+  const [profileImage, setProfileImage] = useState(user?.photoURL || '');
 
   const [address, setAddress] = useState({
     lastName: '',
@@ -78,7 +86,7 @@ export default function Settings() {
         city: user.location?.split(',')[0] || '',
         state: user.location?.split(',')[1] || '',
       }));
-      setProfileImage(user.image || '');
+      setProfileImage(user.photoURL || '');
     }
   }, [user]);
 
@@ -113,7 +121,7 @@ export default function Settings() {
 
       const updatedUser = {
         ...user,
-        image: imageUrl,
+        photoURL: imageUrl,
       };
 
       setUser(updatedUser);
@@ -130,7 +138,7 @@ export default function Settings() {
       email: address.email,
       phone: address.phone,
       location: `${address.city}, ${address.state}`.trim(),
-      image: profileImage,
+      photoURL: profileImage,
     };
 
     setUser(updatedUser);
@@ -172,27 +180,27 @@ export default function Settings() {
 
       {/* Personal Info */}
       {editingAddress ? (
-        <form onSubmit={onSubmitHandler} className="space-y-3 text-sm">
+        <form onSubmit={onSubmitHandler} className="space-y-4 text-sm">
           <p className="text-xl font-semibold mb-4">Personal Information</p>
-          <div className="grid grid-cols-3 gap-4">
-            <InputField handleChange={handleChange} value={address.lastName} name="lastName" type="text" placeholder="Last Name" />
-            <InputField handleChange={handleChange} value={address.firstName} name="firstName" type="text" placeholder="First Name" />
-            <InputField handleChange={handleChange} value={address.middleName} name="middleName" type="text" placeholder="Middle Name" required={false} />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <InputField label="Last Name" handleChange={handleChange} value={address.lastName} name="lastName" type="text" placeholder="Last Name" />
+            <InputField label="First Name" handleChange={handleChange} value={address.firstName} name="firstName" type="text" placeholder="First Name" />
+            <InputField label="Middle Name" handleChange={handleChange} value={address.middleName} name="middleName" type="text" placeholder="Middle Name" required={false} />
           </div>
 
-          <InputField handleChange={handleChange} value={address.email} name="email" type="email" placeholder="Email" />
-          <InputField handleChange={handleChange} value={address.phone} name="phone" type="text" placeholder="Phone" />
+          <InputField label="Email" handleChange={handleChange} value={address.email} name="email" type="email" placeholder="Enter Email" />
+          <InputField label="Phone" handleChange={handleChange} value={address.phone} name="phone" type="text" placeholder="Enter Phone" />
 
           <p className="text-xl font-semibold mb-4">Billing Address</p>
-          <InputField handleChange={handleChange} value={address.street} name="street" type="text" placeholder="Street Address" />
-          <div className="grid grid-cols-3 gap-4">
-            <InputField handleChange={handleChange} value={address.city} name="city" type="text" placeholder="City" />
-            <InputField handleChange={handleChange} value={address.state} name="state" type="text" placeholder="State" />
-            <InputField handleChange={handleChange} value={address.zipcode} name="zipcode" type="number" placeholder="Zipcode" required={false} />
+          <InputField label="Street Address" handleChange={handleChange} value={address.street} name="street" type="text" placeholder="Street Address" />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <InputField label="City" handleChange={handleChange} value={address.city} name="city" type="text" placeholder="City" />
+            <InputField label="State" handleChange={handleChange} value={address.state} name="state" type="text" placeholder="State" />
+            <InputField label="Zipcode" handleChange={handleChange} value={address.zipcode} name="zipcode" type="number" placeholder="Zipcode" required={false} />
           </div>
 
-          <button type="submit" className="w-full bg-primary mt-4 py-2 text-white hover:bg-primary-dull rounded-full uppercase">
-            Save Info
+          <button type="submit" className="w-fit px-4 py-1 text-sm bg-primary text-white rounded-md hover:bg-primary/90">
+            Save Changes
           </button>
         </form>
       ) : (
@@ -206,7 +214,7 @@ export default function Settings() {
           </div>
           <button
             onClick={handleResetAddress}
-            className="w-full bg-primary mt-4 py-2 text-white hover:bg-primary-dull rounded-full uppercase"
+            className="w-fit px-4 py-1 mt-4 text-sm bg-primary text-white rounded-md hover:bg-primary/90"
           >
             Edit Info
           </button>
@@ -217,6 +225,7 @@ export default function Settings() {
       <form onSubmit={onSubmitControler} className="mt-10 space-y-4">
         <p className="text-xl font-semibold">Change Password</p>
         <InputField
+          label="Current Password"
           handleChange={handleChange}
           value={password.password}
           name="password"
@@ -226,8 +235,9 @@ export default function Settings() {
           toggleIcon={() => setShowPassword(!showPassword)}
         />
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <InputField
+            label="New Password"
             handleChange={handleChange}
             value={password.newPassword}
             name="newPassword"
@@ -237,6 +247,7 @@ export default function Settings() {
             toggleIcon={() => setShowNewPassword(!showNewPassword)}
           />
           <InputField
+            label="Confirm Password"
             handleChange={handleChange}
             value={password.confirmPassword}
             name="confirmPassword"
@@ -247,12 +258,12 @@ export default function Settings() {
           />
         </div>
 
-        <div className="flex justify-between">
-          <button type="submit" className="bg-primary py-2 px-4 text-white rounded-full hover:bg-primary-dull">
-            Change Password
+        <div className="flex justify-between items-center">
+          <button type="submit" className="w-fit px-4 py-1 text-sm bg-primary text-white rounded-md hover:bg-primary/90">
+            Save Changes
           </button>
           {submittedPassword && (
-            <button onClick={handleResetPassword} type="button" className="text-red-500 underline">
+            <button onClick={handleResetPassword} type="button" className="text-red-500 underline text-sm">
               Reset
             </button>
           )}

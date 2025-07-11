@@ -6,6 +6,8 @@ import { toast } from 'react-hot-toast';
 
 const Cart = () => {
   const {
+    user,
+    setShowUserLogin,
     products,
     updateCartItems,
     getCartAmount,
@@ -38,11 +40,18 @@ const Cart = () => {
   }, [products, cartItems]);
 
   const handleCheckout = () => {
+    if (!user) {
+      toast.error("Please login to proceed to checkout.");
+      setShowUserLogin(true); // Show login modal
+      return;
+    }
+
     const totalQuantity = Object.values(cartItems).reduce((acc, qty) => acc + qty, 0);
     if (totalQuantity < 5) {
       toast.error("You must add at least 5 products before proceeding to checkout.");
       return;
     }
+
     navigate("/checkout");
   };
 
@@ -138,20 +147,21 @@ const Cart = () => {
             <span className='md:text-2xl'>Total</span> <span>₦{getCartAmount() + getCartAmount() + 1500}</span>
           </div>
         </div>
-        <div className='group flex flex-row justify-between '>
-          <button
-            onClick={() => navigate("/products")}
-            className='text-primary border border-gray-300 rounded-full hover:bg-primary hover:text-gray-700 md:py-2 md:px-25'
-          >
-            Continue Shopping
-          </button>
-          <button
-            onClick={handleCheckout}
-            className='bg-primary text-white rounded-full md:py-2 md:px-25'
-          >
-            Proceed to Checkout
-          </button>
-        </div>
+
+            <div className='group flex flex-row justify-between'>
+        <button
+          onClick={() => navigate("/products")}
+          className='text-primary border border-gray-300 rounded-full hover:bg-primary hover:text-gray-700 px-3 md:py-2 md:px-25'
+        >
+          Continue Shopping
+        </button>
+        <button
+          onClick={handleCheckout}
+          className='bg-primary text-white rounded-full px-3 md:py-2 md:px-25'
+        >
+          Proceed to Checkout
+        </button>
+      </div>
       </div>
 
       <div>
