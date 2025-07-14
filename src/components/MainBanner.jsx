@@ -63,7 +63,7 @@ const MainBanner = () => {
           src={img}
           onClick={() => navigate('/products')}
           alt={`banner-${index}`}
-          className={`absolute top-0 left-0 w-full md:h-[370px] lg:h-full lg:object-cover transition-opacity duration-1000 ease-in-out ${
+          className={`absolute top-0 left-0 w-full md:h-[500px] lg:h-full lg:object-cover transition-opacity duration-1000 ease-in-out ${
             index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
           }`}
         />
