@@ -62,8 +62,8 @@ const ProductCategory = () => {
 
   return (
     <div className="mt-1 ">
-        <div className='relative w-full mb-4'>
-            <img src={assets.category_banner1} alt="" className='md:w-full' />
+        <div className='relative md:w-full mb-4'>
+            <img src={assets.category_banner1} alt="" className='w-full object-cover h-[60px] ' />
             <div className='absolute inset-0 pl-2 md:pl-8 flex items-center gap-1.5 '>
                 <img src={assets.category_icon} alt=""  /> <img src={assets.vector} alt="" />
               <p className='md:text-2xl font-bold'>Categories</p>
@@ -71,7 +71,7 @@ const ProductCategory = () => {
             </div>
         </div>
 
-       <div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6 md:px-8'>
+       <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-4 mb-6 md:px-8'>
           {/* Category Select */}
             <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}
                 className='border border-gray-300 px-1 md:px-4 py-2 rounded-md  '>

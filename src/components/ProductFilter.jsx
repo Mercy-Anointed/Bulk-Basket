@@ -11,6 +11,7 @@ const ProductFilter = () => {
   const [minPrice, setMinPrice] = useState(0);
   const [Availability, setAvailability] = useState([]);
   const [maxPrice, setMaxPrice] = useState(20000);
+  const [sortOrder, setSortOrder] = useState('Latest'); // ✅ New state for sort order
 
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {
@@ -31,20 +32,30 @@ const ProductFilter = () => {
   const applyFilter = () => {
     let productsCopy = products.slice();
 
+    // Filter by category
     if (category.length > 0) {
       productsCopy = productsCopy.filter((item) => category.includes(item.category));
     }
 
+    // Filter by availability
     if (Availability.length > 0) {
       productsCopy = productsCopy.filter((item) =>
         Availability.includes(String(item.inStock))
       );
     }
 
+    // Filter by price
     if (minPrice !== null) {
       productsCopy = productsCopy.filter(
         (item) => item.amount >= minPrice && item.amount <= maxPrice
       );
+    }
+
+    // Sort logic ✅
+    if (sortOrder === 'low-high') {
+      productsCopy.sort((a, b) => a.amount - b.amount);
+    } else if (sortOrder === 'high-low') {
+      productsCopy.sort((a, b) => b.amount - a.amount);
     }
 
     setFilteredProducts(productsCopy);
@@ -52,7 +63,7 @@ const ProductFilter = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, Availability, minPrice]);
+  }, [category, Availability, minPrice, sortOrder]);
 
   useEffect(() => {
     if (searchQuery.length > 0) {
@@ -156,7 +167,11 @@ const ProductFilter = () => {
           </button>
 
           {/* Sort Dropdown */}
-          <select className="border border-gray-300 text-sm px-3 py-2 rounded-md">
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="border border-gray-300 text-sm px-3 py-2 rounded-md"
+          >
             <option value="Latest">Sort by: Latest</option>
             <option value="low-high">Low to High</option>
             <option value="high-low">High to Low</option>
@@ -181,3 +196,4 @@ const ProductFilter = () => {
 };
 
 export default ProductFilter;
+

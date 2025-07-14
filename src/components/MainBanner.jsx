@@ -36,61 +36,48 @@ const MainBanner = () => {
 
 export default MainBanner; */
 
-import React from 'react'; 
+import React, { useEffect, useState } from 'react';
 import { assets } from '../assets/assets';
-import { Link } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
 
 const MainBanner = () => {
+  const { navigate } = useAppContext();
+  const bannerImages = [assets.animation0, assets.animation2, assets.animation1];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
+    }, 5000); // 5 seconds per image
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="relative mb-9 flex flex-col md:flex-row w-full">
-      {/* Background Banner Image */}
-      <img
-        src={assets.main_banner}
-        alt="banner"
-        className="w-full h-[45vh] md:h-[55vh] object-cover"
-      />
+    <div className="relative w-full mb-3 md:mb-3 h-[25vh] sm:h-[30vh] md:h-[40vh] lg:h-[75vh] overflow-hidden">
+      {/* Loop through images and stack them absolutely */}
+      {bannerImages.map((img, index) => (
+        <img
+          key={index}
+          src={img}
+          onClick={() => navigate('/products')}
+          alt={`banner-${index}`}
+          className={`absolute top-0 left-0 w-full md:h-[370px] lg:h-full lg:object-cover transition-opacity duration-1000 ease-in-out ${
+            index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+          }`}
+        />
+      ))}
 
-      {/* Overlay Content */}
-      <div className="absolute inset-0 flex flex-col-reverse md:flex-row items-center justify-center md:justify-between px-4 md:px-10 lg:px-20 py-8">
-        {/* Text Section */}
-        <div className="text-center md:text-left max-w-xl">
-          <p className="text-primary text-xs sm:text-sm md:text-sm">Welcome to bulk basket</p>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mt-3 mb-3">
-            Fresh & Healthy Organic food
-          </h1>
-          <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-2">
-            Sale up to <span className="text-[#FF8A00] font-bold">30% OFF</span>
-          </h3>
-          <p className="text-gray-500 text-xs sm:text-sm md:text-sm mb-2">
-            Free shipping on all first-time orders. We deliver. You enjoy.
-          </p>
-
-          <div className="flex justify-center md:justify-start">
-            <Link
-              to="/products"
-              className="group flex items-center gap-2 font-medium border border-primary rounded-full py-1.5 px-4 sm:py-2.5 sm:px-6 bg-white hover:bg-primary transition text-xs sm:text-sm md:text-base"
-            >
-              Shop now
-              <img
-                src={assets.black_arrow}
-                alt=""
-                className="w-3 sm:w-4 transition group-hover:translate-x-1"
-              />
-            </Link>
-          </div>
-        </div>
-
-        {/* Right Image */}
-        <div className="mb-4 md:mb-0 md:pr-8">
-          <img
-            src={assets.food_basket}
-            alt="basket"
-            className="w-36 sm:w-44 md:w-156 lg:w-172"
-          />
-        </div>
-      </div>
+      {/* Optional: Add content overlay */}
+      {/* <div className="absolute inset-0 flex items-center justify-center text-white text-center p-4 sm:p-6 md:p-10">
+        <h1 className="text-xl sm:text-2xl md:text-4xl font-bold bg-black/50 p-3 rounded">
+          Welcome to Our Store
+        </h1>
+      </div> */}
     </div>
   );
 };
 
 export default MainBanner;
+

@@ -88,6 +88,12 @@ import faq_banner1 from './faqbanner1.png'
 import faq_banner2 from './Group 5.png'
 import plus_icon from './Plus.png'
 import vector from './Vector (3).png'
+import animation0 from './animation0.png'
+import animation1 from './animation1.png'
+import animation2 from './animation2.png'
+import animation3 from './animation3.png'
+import animation4 from './animation4.png'
+import animation5 from './animation5.png'
 
 export const assets = {
     logo,
@@ -164,6 +170,12 @@ export const assets = {
     faq_banner2,
     plus_icon,
     vector,
+    animation0,
+    animation1,
+    animation2,
+    animation3,
+    animation4,
+    animation5,
 }
 
 export const categories = [
