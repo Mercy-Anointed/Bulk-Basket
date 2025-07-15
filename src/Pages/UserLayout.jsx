@@ -1,7 +1,14 @@
 import React from 'react';
-import { useAppContext } from '../context/AppContext';
-import { FaTachometerAlt, FaHistory, FaShoppingCart, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import {
+  FaTachometerAlt,
+  FaHistory,
+  FaShoppingCart,
+  FaCog,
+  FaSignOutAlt,
+  FaHeart,
+} from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
 
 export default function UserLayout() {
   const { setUser, navigate, setShowUserLogin } = useAppContext();
@@ -16,6 +23,7 @@ export default function UserLayout() {
   const sidebarLinks = [
     { name: "Dashboard", path: "/account/dashboard", icon: <FaTachometerAlt /> },
     { name: "Order History", path: "/account/order", icon: <FaHistory /> },
+    { name: "Wishlist", path: "/account/wishlist", icon: <FaHeart /> }, // ✅ Added FaHeart here
     { name: "Shopping Cart", path: "/account/shop", icon: <FaShoppingCart /> },
     { name: "Settings", path: "/account/settings", icon: <FaCog /> },
   ];

@@ -285,6 +285,7 @@ export const AppContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
   const [searchQuery, setSearchQuery] = useState({});
   const [vendor, setVendor] = useState(null);
+  const [wishlist, setWishlist] = useState([]);
 
   const MAX_QUANTITY = 100;
   const MIN_QUANTITY = 5;
@@ -294,7 +295,7 @@ export const AppContextProvider = ({ children }) => {
     const normalizedUser = {
       name: userObject.displayName || userObject.name || "User",
       email: userObject.email,
-      photoURL: userObject.photoURL || userObject.photo || "", // image uploaded or from Google
+      photoURL: userObject.photoURL || userObject.photo || "",
     };
 
     setUser(normalizedUser);
@@ -302,7 +303,6 @@ export const AppContextProvider = ({ children }) => {
     toast.success("Logged in successfully");
   };
 
-  // ✅ Logout User
   const logoutUser = () => {
     setUser(null);
     localStorage.removeItem("user");
@@ -310,7 +310,6 @@ export const AppContextProvider = ({ children }) => {
     toast.success("Logged out");
   };
 
-  // ✅ Firebase Vendor Login
   const loginVendorWithGoogle = async () => {
     try {
       const result = await signInWithGoogle();
@@ -334,38 +333,52 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
-  // ✅ Load vendor from localStorage
+  // ✅ Wishlist functions
+  const addToWishlist = (itemId) => {
+    if (!wishlist.includes(itemId)) {
+      const updated = [...wishlist, itemId];
+      setWishlist(updated);
+      localStorage.setItem("wishlist", JSON.stringify(updated));
+      toast.success("Added to wishlist");
+    }
+  };
+
+  const removeFromWishlist = (itemId) => {
+    const updated = wishlist.filter(id => id !== itemId);
+    setWishlist(updated);
+    localStorage.setItem("wishlist", JSON.stringify(updated));
+    toast.success("Removed from wishlist");
+  };
+
+  // Load from localStorage
   useEffect(() => {
     const storedVendor = localStorage.getItem("vendor");
     if (storedVendor) {
       setVendor(JSON.parse(storedVendor));
       setIsVendor(true);
     }
-  }, []);
 
-  // ✅ Load user from localStorage
-  useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  }, []);
 
-  // ✅ Load cartItems from localStorage
-  useEffect(() => {
     const storedCart = localStorage.getItem("cartItems");
     if (storedCart) {
       setCartItems(JSON.parse(storedCart));
     }
+
+    const storedWishlist = localStorage.getItem("wishlist");
+    if (storedWishlist) {
+      setWishlist(JSON.parse(storedWishlist));
+    }
   }, []);
 
-  // ✅ Save cartItems to localStorage
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
     console.log("🛒 cartItems updated:", cartItems);
   }, [cartItems]);
 
-  // ✅ Load products (replace with actual fetch in production)
   const fetchProduct = async () => {
     setProducts(dummyProducts);
   };
@@ -466,6 +479,9 @@ export const AppContextProvider = ({ children }) => {
     vendor,
     setVendor,
     loginVendorWithGoogle,
+    wishlist,
+    addToWishlist,
+    removeFromWishlist,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

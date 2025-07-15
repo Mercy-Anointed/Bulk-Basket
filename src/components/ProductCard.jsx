@@ -65,18 +65,42 @@ const ProductCard = ({product}) => {
 export default ProductCard; */}
 import { useAppContext } from '../context/AppContext';
 import { assets } from '../assets/assets';
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const ProductCard = ({ product }) => {
-  const { navigate, addToCart, removeFromCart, cartItems } = useAppContext();
+  const {
+    navigate,
+    addToCart,
+    removeFromCart,
+    cartItems,
+    wishlist,
+    addToWishlist,
+    removeFromWishlist
+  } = useAppContext();
+
+  const isInWishlist = wishlist.includes(product._id);
 
   return product && (
     <div
       onClick={() =>
         navigate(`/products/${product.category.toLowerCase()}/${product._id}`)
       }
-      className="group border border-gray-200 rounded-md px-2 py-3 sm:px-3 sm:py-4 md:px-4 md:py-5 
+      className="relative group border border-gray-200 rounded-md px-2 py-3 sm:px-3 sm:py-4 md:px-4 md:py-5 
       bg-white w-full hover:shadow-md transition text-xs sm:text-sm md:text-base"
     >
+      {/* Wishlist Icon */}
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          isInWishlist
+            ? removeFromWishlist(product._id)
+            : addToWishlist(product._id);
+        }}
+        className="absolute top-2 right-2 text-red-500 text-lg cursor-pointer z-20"
+      >
+        {isInWishlist ? <FaHeart /> : <FaRegHeart />}
+      </div>
+
       {/* Product Image */}
       <div className="flex items-center justify-center mb-3 h-[100px] sm:h-[120px] md:h-[140px]">
         <img
@@ -94,6 +118,7 @@ const ProductCard = ({ product }) => {
             <p className="text-gray-800 font-medium text-[12px] sm:text-base truncate flex-1 mr-2">
               {product.name}
             </p>
+
             {/* Add button on small screens inline with name */}
             <div
               onClick={(e) => e.stopPropagation()}
@@ -124,6 +149,7 @@ const ProductCard = ({ product }) => {
           <p className="text-gray-700 font-semibold mt-1 sm:mt-2">
             N{product.amount}
           </p>
+
           <div className="flex items-center gap-0.5 mt-1">
             {Array(5).fill('').map((_, i) => (
               <img
@@ -139,14 +165,18 @@ const ProductCard = ({ product }) => {
         {/* Add button on md+ screens */}
         <div
           onClick={(e) => e.stopPropagation()}
-          className="hidden md:block w-aut "
+          className="hidden md:block w-auto"
         >
           {!cartItems[product._id] ? (
             <button
               onClick={() => addToCart(product._id)}
               className="flex items-center justify-center gap-1.5 bg-primary border border-primary text-white py-1.5 px-3 sm:py-2 sm:px-4 rounded-full text-[11px] sm:text-sm hover:bg-green-700 transition whitespace-nowrap"
             >
-              <img src={assets.basket_bag} alt="cart" className="w-3 h-3 sm:w-4 sm:h-4" />
+              <img
+                src={assets.basket_bag}
+                alt="cart"
+                className="w-3 h-3 sm:w-4 sm:h-4"
+              />
               Add
             </button>
           ) : (

@@ -22,6 +22,7 @@ import CheckOut from './Pages/CheckOut';
 import UserDashboard from './Pages/UserDashboard';
 import UserProfile from './components/UserProfile';
 import OrderHistory from './components/OrderHistory';
+import Wishlist from './components/Wishlist';
 import ShoppingCart from './components/ShoppingCart';
 import Settings from './components/Settings';
 
@@ -59,6 +60,7 @@ const App = () => {
               <Route index element={<UserProfile />} />
               <Route path="dashboard" element={<UserProfile />} />
               <Route path="order" element={<OrderHistory />} />
+              <Route path="wishlist" element={<Wishlist />} />
               <Route path="shop" element={<ShoppingCart />} />
               <Route path="settings" element={<Settings />} />
             </Route>

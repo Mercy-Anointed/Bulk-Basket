@@ -54,7 +54,7 @@ const OrderHistory = () => {
 
     return (
       <div className="max-w-4xl mx-auto px-4 py-6">
-        <div className="sticky top-0 z-20 bg-white border-b border-gray-200 flex items-center justify-between px-4 py-3 shadow-sm">
+        <div className="sticky top-0 z-20 bg-gray-100 border-b border-gray-200 flex items-center justify-between px-4 py-3 shadow-sm">
           <button
             onClick={() => {
               setPage(1);
@@ -68,7 +68,7 @@ const OrderHistory = () => {
         </div>
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="border border-gray-300 rounded-md p-4 bg-white shadow-sm">
+          <div className="border border-gray-300 rounded-md p-4 bg-gray-100 shadow-sm">
             <h3 className="text-lg font-semibold mb-4">Billing Information</h3>
             <div className="text-sm text-gray-700 space-y-1">
               <p><strong>Name:</strong> {selectedOrder.billingInfo?.fullName || 'N/A'}</p>
@@ -78,7 +78,7 @@ const OrderHistory = () => {
             </div>
           </div>
 
-          <div className="border border-gray-300 rounded-md p-4 bg-white shadow-sm">
+          <div className="border border-gray-300 rounded-md p-4 bg-gray-100 shadow-sm">
             <h3 className="text-lg font-semibold mb-4">Shipping Information</h3>
             <div className="text-sm text-gray-700 space-y-1">
               <p><strong>Name:</strong> {selectedOrder.shippingInfo?.fullName || 'N/A'}</p>

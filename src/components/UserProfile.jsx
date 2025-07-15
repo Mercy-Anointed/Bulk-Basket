@@ -4,12 +4,14 @@ import { useAppContext } from '../context/AppContext';
 import { AiOutlineMail, AiOutlineEdit, AiOutlineCalendar } from 'react-icons/ai';
 import { FaPhoneAlt, FaMapMarkerAlt } from 'react-icons/fa';
 import { FiShoppingBag } from 'react-icons/fi';
+import ProductCard from '../components/ProductCard';
 
 const UserProfile = () => {
   const navigate = useNavigate();
   const orders = JSON.parse(localStorage.getItem('orders')) || [];
-  const { user } = useAppContext();
+  const { user, wishlist, products } = useAppContext();
   const [visibleDetails, setVisibleDetails] = useState({});
+  const [showAllFavorites, setShowAllFavorites] = useState(false);
 
   const toggleDetails = (index) => {
     setVisibleDetails((prev) => ({
@@ -20,6 +22,12 @@ const UserProfile = () => {
 
   const totalOrders = orders.length;
   const totalSpent = orders.reduce((sum, order) => sum + Number(order.total || 0), 0);
+
+  const favoriteProducts = wishlist
+    .map((id) => products.find((p) => p._id === id))
+    .filter(Boolean);
+
+  const displayedFavorites = showAllFavorites ? favoriteProducts : favoriteProducts.slice(0, 3);
 
   if (!user) {
     return <p className="text-gray-500 text-center mt-10">No user is logged in.</p>;
@@ -91,6 +99,31 @@ const UserProfile = () => {
         </div>
       </div>
 
+      {/* Favorite Products */}
+      <div className="max-w-6xl mx-auto mt-10">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold">Favorite Products</h2>
+          {favoriteProducts.length > 3 && (
+            <button
+              onClick={() => setShowAllFavorites(!showAllFavorites)}
+              className="text-primary text-sm hover:underline"
+            >
+              {showAllFavorites ? 'Hide' : 'View All'}
+            </button>
+          )}
+        </div>
+
+        {favoriteProducts.length === 0 ? (
+          <p className="text-gray-500 text-center">You have no favorite products yet.</p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-5">
+            {displayedFavorites.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Order History */}
       <div className="max-w-4xl mx-auto mt-10">
         <h2 className="text-xl font-semibold mb-6">Recent Order History</h2>
@@ -99,7 +132,6 @@ const UserProfile = () => {
           <p className="text-gray-500 text-center">You have no orders yet.</p>
         ) : (
           <div className="overflow-x-auto">
-            {/* Table Header */}
             <div className="grid min-w-[600px] grid-cols-5 gap-4 text-center text-xs sm:text-sm font-medium text-gray-700 border-b border-gray-200 px-4 py-2">
               <div className="truncate">Order ID</div>
               <div className="truncate">Date</div>
@@ -108,7 +140,6 @@ const UserProfile = () => {
               <div className="truncate">Items</div>
             </div>
 
-            {/* Table Rows */}
             <div className="divide-y divide-gray-200 min-w-[600px]">
               {orders.map((order, index) => (
                 <div key={index} className="px-4 py-3 grid grid-cols-5 gap-4 text-center text-xs sm:text-sm text-gray-600">
